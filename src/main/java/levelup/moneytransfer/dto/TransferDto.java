@@ -10,4 +10,5 @@ public class TransferDto {     //DTO - то, что мы считали напр
     private String surNameReciever;
     private String accNumberReciever;
     private Integer transferAmount;
+    private CurrencyCode currencyCode;
 }
