@@ -6,9 +6,9 @@ import lombok.Data;
 public class TransferDto {     //DTO - то, что мы считали например с GUI
 
     private String accNumberSender;
-    private String nameReciever;
-    private String surNameReciever;
-    private String accNumberReciever;
+    private String nameReceiver;
+    private String surNameReceiver;
+    private String accNumberReceiver;
     private Integer transferAmount;
     private CurrencyCode currencyCode;
 }

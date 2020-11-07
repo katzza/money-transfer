@@ -8,20 +8,20 @@
   "examples": [
     {
       "accNumberSender": "40817810570000123456",
-      "nameReciever": "Vassily",
-      "surNameReciever": "Pupkin",
-      "accNumberReciever": "40817810570000123466",
-      "transfer amount": 3000,
-      "currency": "MR"
+      "nameReceiver": "Vassily",
+      "surNameReceiver": "Pupkin",
+      "accNumberReceiver": "40817810570000123466",
+      "transferAmount": 3000,
+      "currencyCode": "ZWD"
     }
   ],
   "required": [
     "accNumberSender",
-    "nameReciever",
-    "surNameReciever",
-    "accNumberReciever",
-    "transfer amount",
-    "currency"
+    "nameReceiver",
+    "surNameReceiver",
+    "accNumberReceiver",
+    "transferAmount",
+    "currencyCode"
   ],
   "properties": {
     "accNumberSender": {
@@ -36,7 +36,7 @@
       "required": [],
       "title": "The accNumberSender schema"
     },
-    "nameReciever": {
+    "nameReceiver": {
       "default": "",
       "description": "An explanation about the purpose of this instance.",
       "examples": [
@@ -45,9 +45,9 @@
       "maxLength": 60,
       "minLength": 1,
       "pattern": "[a-z A-Z]+",
-      "title": "The nameReciever schema"
+      "title": "The nameReceiver schema"
     },
-    "surNameReciever": {
+    "surNameReceiver": {
       "default": "",
       "description": "An explanation about the purpose of this instance.",
       "examples": [
@@ -56,9 +56,9 @@
       "maxLength": 60,
       "minLength": 1,
       "pattern": "[a-z A-Z]+",
-      "title": "The surNameReciever schema"
+      "title": "The surNameReceiver schema"
     },
-    "accNumberReciever": {
+    "accNumberReceiver": {
       "default": "",
       "description": "An explanation about the purpose of this instance.",
       "examples": [
@@ -66,9 +66,9 @@
       ],
       "pattern": "^\\d+$",
       "required": [],
-      "title": "The accNumberReciever schema"
+      "title": "The accNumberReceiver schema"
     },
-    "transfer amount": {
+    "transferAmount": {
       "default": 0,
       "description": "An explanation about the purpose of this instance.",
       "examples": [
@@ -76,19 +76,18 @@
       ],
       "pattern": "^\\d+$",
       "required": [],
-      "title": "The transfer amount schema",
+      "title": "The transferAmount schema",
       "maximum": 100000000,
       "minimum": 0.05
     },
-    "currency": {
-      "default": "",
+    "currencyCode": {
       "description": "An explanation about the purpose of this instance.",
       "examples": [
-        "MR"
+        "ZWD"
       ],
       "maxLength": 5,
       "minLength": 1,
-      "title": "The currency schema",
+      "title": "The currencyCode schema",
       "required": []
     }
   },

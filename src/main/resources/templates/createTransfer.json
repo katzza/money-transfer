@@ -1,8 +1,8 @@
 {
   "accNumberSender": "40817810570000123456",
-  "nameReciever": "Vassily",
-  "surNameReciever": "Pupkin",
-  "accNumberReciever": "40817810570000123466",
-  "transfer amount": 3000,
-  "currency": "MR"
+  "nameReceiver": "Vassily",
+  "surNameReceiver": "Pupkin",
+  "accNumberReceiver": "40817810570000123466",
+  "transferAmount": 3000,
+  "currencyCode": "EUR"
 }
