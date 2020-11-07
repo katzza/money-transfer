@@ -2,7 +2,6 @@ package levelup.moneytransfer.service;
 
 import levelup.moneytransfer.dto.CalculationDto;
 import levelup.moneytransfer.dto.CalculationQueryDto;
-import levelup.moneytransfer.dto.ClientAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ public class CalculationServiceImpl implements CalculationService {
     final String baseUrl = "http://localhost:" + "/exchangeRate/";
 
 
-    public CalculationDto getCalculation(CalculationQueryDto calculationQueryDto) {
+    public CalculationDto getCalculation(CalculationQueryDto calculationQueryDto) {   //передаёт calculationQueryDto в ссылке
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -27,13 +26,13 @@ public class CalculationServiceImpl implements CalculationService {
         UriComponentsBuilder uriComponentsBuilder =
                 UriComponentsBuilder
                         .fromUriString(baseUrl)
-                        .queryParam("accCurrencySender",calculationQueryDto.getAccCurrencySender());
+                        .queryParam("accCurrencySender", calculationQueryDto.getAccCurrencySender())
+                        .queryParam("accCurrencyReceiver", calculationQueryDto.getAccCurrencyReceiver())
+                        .queryParam("transferAmount", calculationQueryDto.getTransferAmount());
 
         ResponseEntity<CalculationDto> calculationDto =
-                restTemplate.exchange(baseUrl + "UNIQUEID???", HttpMethod.GET, entity, CalculationDto.class, 1);
-
-
-        // toDo a если не нашёл?
+                restTemplate.exchange(baseUrl + uriComponentsBuilder, HttpMethod.GET, entity, CalculationDto.class, 1);
+        // toDo a если не нашёл - статусы запросов
         return calculationDto.getBody();
     }
 }

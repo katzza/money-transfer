@@ -31,7 +31,6 @@ public class MoneyTransferController {
     @Autowired
     private ObjectMapper objectMapper;
 
-
     // это составная аннотация, которая действует как ярлык для @RequestMapping(method = RequestMethod.POST).
     //аннотированные методы обрабатывают HTTP POST-запросы, соответствующие заданному URI expression
     @PostMapping("/transfer/create")
@@ -44,11 +43,5 @@ public class MoneyTransferController {
         TransferDto transferDto = objectMapper.readValue(raw, TransferDto.class);
         return transferService.createTransfer(transferDto);
     }
-
-    @GetMapping("/clientAccountData")   //или это не в API?
-    public ClientAccountDto getClientFullData(@RequestParam String accountId) {
-        return new ClientAccountDto(clientDataService.getClientData(accountId));
-    }
-
 
 }

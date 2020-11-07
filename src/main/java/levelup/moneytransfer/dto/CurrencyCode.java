@@ -89,6 +89,7 @@ public enum CurrencyCode {
     LSL("Lesotho Loti"),
     LYD("Libya Dinar"),
     MAD("Morocco Dirham"),
+    MAR("Mars super currency"),
     MDL("Moldova Leu"),
     MGA("Madagascar Ariary"),
     MKD("Macedonia Denar"),

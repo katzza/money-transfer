@@ -6,7 +6,11 @@ import lombok.Data;
 public class CalculationQueryDto {
     private String accCurrencySender;
     private String accCurrencyReceiver;
-    private String transferAmountInCurrencySender;
-    public CalculationQueryDto(String currencyCode, String currencyCode1, Integer transferAmount) {
+    private Double transferAmount; //toDo он же в MAR? или нет?
+
+    public CalculationQueryDto(String accCurrencySender, String accCurrencyReceiver, Double transferAmount) {
+        this.accCurrencySender = accCurrencySender;
+        this.accCurrencyReceiver = accCurrencyReceiver;
+        this.transferAmount = transferAmount;
     }
 }

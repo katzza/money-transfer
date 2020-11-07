@@ -17,7 +17,7 @@ public class ClientDataServiceImpl implements ClientDataService {
 
 
     public ClientAccountDto getClientData(String accountId) {
-        //toDo что получаем?!!
+        //toDo сверить, что получаем
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity entity = new HttpEntity(httpHeaders);
@@ -26,7 +26,7 @@ public class ClientDataServiceImpl implements ClientDataService {
                 restTemplate.exchange(baseUrl + accountId, HttpMethod.GET, entity, ClientAccountDto.class, 1);
         System.out.println(clientAccountDtoFrom);
 
-        // toDo a если не нашёл?
+        // toDo a если не нашёл? по коду запросов
         return clientAccountDtoFrom.getBody();
     }
 
