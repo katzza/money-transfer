@@ -1,5 +1,7 @@
 package levelup.moneytransfer.dao;
 
+import levelup.moneytransfer.dto.ClientAccountDto;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -10,7 +12,7 @@ public class BalanceEntity {
     private double balanceAfter;
     private double balanceBefore;
     private String currency;
-    //private Integer accountId;
+    private Integer accountId;
     //private Integer transactionId;
     private AccountEntity accountByAccountId;
     private TransactionEntity transactionByTransactionId;
@@ -114,4 +116,5 @@ public class BalanceEntity {
     public void setTransactionByTransactionId(TransactionEntity transactionByTransactionId) {
         this.transactionByTransactionId = transactionByTransactionId;
     }
+
 }

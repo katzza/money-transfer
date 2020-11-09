@@ -13,7 +13,7 @@ public class ClientDataServiceImpl implements ClientDataService {
     @Autowired
     private RestTemplate restTemplate;
 
-    final String baseUrl = "http://localhost:" + "/clientAccountData/";
+    final String baseUrl = "http://localhost:7001" + "/clientAccountData/"; //toDo change Port
 
 
     public ClientAccountDto getClientData(String accountId) {

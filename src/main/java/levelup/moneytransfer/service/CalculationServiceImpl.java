@@ -15,7 +15,7 @@ public class CalculationServiceImpl implements CalculationService {
     @Autowired
     private RestTemplate restTemplate;
 
-    final String baseUrl = "http://localhost:" + "/exchangeRate/";
+    final String baseUrl = "http://localhost:7002" + "/exchangeRate/"; //toDo host 7002
 
 
     public CalculationDto getCalculation(CalculationQueryDto calculationQueryDto) {   //передаёт calculationQueryDto в ссылке
@@ -31,8 +31,20 @@ public class CalculationServiceImpl implements CalculationService {
                         .queryParam("transferAmount", calculationQueryDto.getTransferAmount());
 
         ResponseEntity<CalculationDto> calculationDto =
-                restTemplate.exchange(baseUrl + uriComponentsBuilder, HttpMethod.GET, entity, CalculationDto.class, 1);
+                restTemplate.exchange (uriComponentsBuilder.toUriString(), HttpMethod.GET, entity, CalculationDto.class, 1);
         // toDo a если не нашёл - статусы запросов
         return calculationDto.getBody();
     }
+
+ /*   public CalculationDto getCalculation(CalculationQueryDto calculationQueryDto) {   //передаёт calculationQueryDto в ссылке
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity entity = new HttpEntity(httpHeaders);
+
+        ResponseEntity<CalculationDto> calculationDto =
+                restTemplate.exchange(baseUrl + baseUrl, HttpMethod.GET, entity, CalculationDto.class, 1);
+        // toDo a если не нашёл - статусы запросов
+        return calculationDto.getBody();
+    }*/
 }

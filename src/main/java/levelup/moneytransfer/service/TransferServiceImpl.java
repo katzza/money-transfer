@@ -14,16 +14,18 @@ import java.sql.Timestamp;
 @Service
 public class TransferServiceImpl implements TransferService {
 
-    private ClientAccountDto sender;  //toDo @Autowired же у зендера-ресивера не нужен?!!
+    private ClientAccountDto sender;
     private ClientAccountDto receiver;
     @Autowired
     private ClientDataService clientDataService;
     @Autowired
     private CalculationServiceImpl calculationService;
 
+    //toDo Repo!!!
+
     public String createTransfer(TransferDto transferDto) {
         String clientsFounded = getClients(transferDto);
-        if (!clientsFounded.equals("Success")) return clientsFounded;
+        if (!clientsFounded.equals("Success")) return clientsFounded; //toDo не работало, когда были ошибки в соап-юай
         CalculationDto calculationDto = getCalculation(transferDto.getTransferAmount());
         return makeTransfer(transferDto, sender, receiver, calculationDto);
     }
@@ -55,8 +57,8 @@ public class TransferServiceImpl implements TransferService {
 
         makeBalance(sender, transactionEntity, false, calculationDto);
         makeBalance(receiver, transactionEntity, false, calculationDto);
-        //toDo куда вознаграждение банку
-        //toDo OP копипаст классов с энтити - это нормально? или какой-нибудь импорт применяется обычно?
+        //toDo сделать табличку для вознаграждения банку
+        //toDo OP копипаст классов с энтити - это нормально? или какой-нибудь импорт применяется обычно? конфликт энтити?
         return "Success";
     }
 
@@ -64,8 +66,8 @@ public class TransferServiceImpl implements TransferService {
                              boolean isReceiver, CalculationDto calculationDto) {
         BalanceEntity balanceEntity = new BalanceEntity();
         balanceEntity.setTransactionByTransactionId(transactionEntity);
-        balanceEntity.setCurrency(sender.getCurrencyCode());
-        //   balanceEntity.setAccountByAccountId(sender); //toDo get AccountEntity
+        balanceEntity.setCurrency(clientAccountDto.getCurrencyCode());
+     //   balanceEntity.setAccountId(clientAccountDto.getAccountId());
         balanceEntity.setBalanceBefore(clientAccountDto.getBalance());
         balanceEntity.setBalanceAfter(isReceiver ? clientAccountDto.getBalance() + calculationDto.getTransferAmountInCurrencyReceiver() :
                 clientAccountDto.getBalance() - (calculationDto.getTransferAmountInCurrencySender() + calculationDto.getTransferFeeInCurrencySender()));
