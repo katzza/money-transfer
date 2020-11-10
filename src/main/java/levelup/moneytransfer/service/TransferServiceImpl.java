@@ -1,31 +1,79 @@
 package levelup.moneytransfer.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import levelup.moneytransfer.dao.BalanceEntity;
+import levelup.moneytransfer.dao.TransactionEntity;
+import levelup.moneytransfer.dto.CalculationDto;
+import levelup.moneytransfer.dto.CalculationQueryDto;
+import levelup.moneytransfer.dto.ClientAccountDto;
 import levelup.moneytransfer.dto.TransferDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
+import java.sql.Timestamp;
 
+@Service
 public class TransferServiceImpl implements TransferService {
-    private ObjectMapper objectMapper;
-    private static final File clientsData = new File("C:\\Users\\...");  //toDo
+
+    private ClientAccountDto sender;
+    private ClientAccountDto receiver;
+    @Autowired
+    private ClientDataService clientDataService;
+    @Autowired
+    private CalculationServiceImpl calculationService;
+
+    //toDo Repo!!!
 
     public String createTransfer(TransferDto transferDto) {
-        try {
-            //objectMapper.writeValue(clientsData, clientDto);
-            //File clientsData = new File("C:\\Users\\Platon\\IdeaProjects\\client-management\\data\\clients.dat");
-            //FileWriter fileWriter = new FileWriter(clientsData, Boolean.TRUE);
-            String client = objectMapper.writeValueAsString(transferDto);
-            Files.writeString(Path.of("C:\\Users\\clients.dat"), client, StandardOpenOption.APPEND); //toDo
-            //fileWriter.write(client);
-            return "Success creating transfer with Id" + transferDto.toString();
-        } catch (IOException e) {
-            System.out.println(e.getLocalizedMessage());
-            return "Unable to create transfer with name" + transferDto.toString();
-        }
+        String clientsFounded = getClients(transferDto);
+        if (!clientsFounded.equals("Success")) return clientsFounded; //toDo не работало, когда были ошибки в соап-юай
+        CalculationDto calculationDto = getCalculation(transferDto.getTransferAmount());
+        return makeTransfer(transferDto, sender, receiver, calculationDto);
     }
+
+    private String getClients(TransferDto transferDto) {
+        sender = clientDataService.getClientData(transferDto.getAccNumberSender());
+        if (sender == null) return "Sender not founded";
+        receiver = clientDataService.getClientData(transferDto.getAccNumberReceiver());
+        if (receiver == null) return "Receiver not founded";
+        return "Success";
+    }
+
+    private CalculationDto getCalculation(Double transferAmount) {
+        CalculationQueryDto calculationQueryDto =
+                new CalculationQueryDto(sender.getCurrencyCode(), receiver.getCurrencyCode(), transferAmount);
+        return calculationService.getCalculation(calculationQueryDto);
+    }
+
+    private String makeTransfer(TransferDto transferDto, ClientAccountDto sender, ClientAccountDto receiver, CalculationDto calculationDto) {
+        if (sender.getBalance() < calculationDto.getTransferAmountInCurrencySender()) {
+            return "Sender has not enough money for transfer!";
+        }
+        TransactionEntity transactionEntity = new TransactionEntity();
+        transactionEntity.setAmount(transferDto.getTransferAmount());
+        transactionEntity.setCurrency("MAR");
+        transactionEntity.setTransactionTime(new Timestamp(System.currentTimeMillis()));
+        transactionEntity.setAccountSender(sender.getAccountId());
+        transactionEntity.setAccountReceiver(receiver.getAccountId());
+
+        makeBalance(sender, transactionEntity, false, calculationDto);
+        makeBalance(receiver, transactionEntity, false, calculationDto);
+        //toDo сделать табличку для вознаграждения банку
+        //toDo OP копипаст классов с энтити - это нормально? или какой-нибудь импорт применяется обычно? конфликт энтити?
+        return "Success";
+    }
+
+    private void makeBalance(ClientAccountDto clientAccountDto, TransactionEntity transactionEntity,
+                             boolean isReceiver, CalculationDto calculationDto) {
+        BalanceEntity balanceEntity = new BalanceEntity();
+        balanceEntity.setTransactionByTransactionId(transactionEntity);
+        balanceEntity.setCurrency(clientAccountDto.getCurrencyCode());
+     //   balanceEntity.setAccountId(clientAccountDto.getAccountId());
+        balanceEntity.setBalanceBefore(clientAccountDto.getBalance());
+        balanceEntity.setBalanceAfter(isReceiver ? clientAccountDto.getBalance() + calculationDto.getTransferAmountInCurrencyReceiver() :
+                clientAccountDto.getBalance() - (calculationDto.getTransferAmountInCurrencySender() + calculationDto.getTransferFeeInCurrencySender()));
+        balanceEntity.setCurrency(clientAccountDto.getCurrencyCode());
+    }
+
+
 }
 

@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "The root schema",
+  "description": "The root schema comprises the entire JSON document.",
+  "default": {},
+  "examples": [
+    {
+      "accNumberSender": "40817810570000123456",
+      "nameReceiver": "Vassily",
+      "surNameReceiver": "Pupkin",
+      "accNumberReceiver": "40817810570000222222",
+      "transferAmount": 3000,
+      "currencyCode": "ZWD"
+    }
+  ],
+  "required": [
+    "accNumberSender",
+    "nameReceiver",
+    "surNameReceiver",
+    "accNumberReceiver",
+    "transferAmount",
+    "currencyCode"
+  ],
+  "properties": {
+    "accNumberSender": {
+      "default": "",
+      "description": "An explanation about the purpose of this instance.",
+      "examples": [
+        "40817810570000123456"
+      ],
+      "maxLength": 20,
+      "minLength": 20,
+      "pattern": "^\\d+$",
+      "required": [],
+      "title": "The accNumberSender schema"
+    },
+    "nameReceiver": {
+      "default": "",
+      "description": "An explanation about the purpose of this instance.",
+      "examples": [
+        "Vasily"
+      ],
+      "maxLength": 60,
+      "minLength": 1,
+      "pattern": "[a-z A-Z]+",
+      "title": "The nameReceiver schema"
+    },
+    "surNameReceiver": {
+      "default": "",
+      "description": "An explanation about the purpose of this instance.",
+      "examples": [
+        "Pupkin"
+      ],
+      "maxLength": 60,
+      "minLength": 1,
+      "pattern": "[a-z A-Z]+",
+      "title": "The surNameReceiver schema"
+    },
+    "accNumberReceiver": {
+      "default": "",
+      "description": "An explanation about the purpose of this instance.",
+      "examples": [
+        "40817810570000123466"
+      ],
+      "pattern": "^\\d+$",
+      "required": [],
+      "title": "The accNumberReceiver schema"
+    },
+    "transferAmount": {
+      "default": 0,
+      "description": "An explanation about the purpose of this instance.",
+      "examples": [
+        3000
+      ],
+      "pattern": "^\\d+$",
+      "required": [],
+      "title": "The transferAmount schema",
+      "maximum": 100000000,
+      "minimum": 0.05
+    },
+    "currencyCode": {
+      "description": "An explanation about the purpose of this instance.",
+      "examples": [
+        "ZWD"
+      ],
+      "maxLength": 5,
+      "minLength": 1,
+      "title": "The currencyCode schema",
+      "required": []
+    }
+  },
+  "additionalProperties": true
+}

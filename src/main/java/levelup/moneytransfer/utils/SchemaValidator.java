@@ -26,7 +26,7 @@ public class SchemaValidator {
         String rawSchema = null;
         try {
             rawSchema = new String(Files.readAllBytes
-                    (Paths.get("C:\\Users\\emokeeva\\Documents\\Learn\\JavaCourse\\......")));  //todo
+                    (Paths.get("C:\\Users\\emokeeva\\Documents\\Learn\\JavaCourse\\money-transfer\\src\\main\\resources\\static\\transfer_schema.json")));
         } catch (IOException e) {
             System.out.println(e.getLocalizedMessage());
 
