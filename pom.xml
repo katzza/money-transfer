@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.levelup.bank</groupId>
-    <artifactId>client-management</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>client-management</name>
+    <artifactId>money-transfer</artifactId>
+    <version>1.0</version>
+    <name>money-transfer</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
