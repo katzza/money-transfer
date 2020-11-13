@@ -14,7 +14,7 @@ public class BalanceEntity {
     private String currency;
     private Integer accountId;
     //private Integer transactionId;
-    private AccountEntity accountByAccountId;
+ //   private AccountEntity accountByAccountId;
     private TransactionEntity transactionByTransactionId;
 
     @Id
@@ -57,7 +57,7 @@ public class BalanceEntity {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
-/*
+
     @Basic
     @Column(name = "account_id")
     public Integer getAccountId() {
@@ -69,7 +69,7 @@ public class BalanceEntity {
     }
 
 
-    @Basic
+ /*   @Basic
     @Column(name = "transaction_id")
     public Integer getTransactionId() {
         return transactionId;
@@ -96,7 +96,7 @@ public class BalanceEntity {
     public int hashCode() {
         return Objects.hash(balanceId, balanceAfter, balanceBefore, currency);
     }
-
+/*
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     public AccountEntity getAccountByAccountId() {
@@ -105,7 +105,7 @@ public class BalanceEntity {
 
     public void setAccountByAccountId(AccountEntity accountByAccountId) {
         this.accountByAccountId = accountByAccountId;
-    }
+    }*/
 
     @ManyToOne
     @JoinColumn(name = "transaction_id", referencedColumnName = "transaction_id")

@@ -6,6 +6,8 @@ import levelup.moneytransfer.dto.CalculationDto;
 import levelup.moneytransfer.dto.CalculationQueryDto;
 import levelup.moneytransfer.dto.ClientAccountDto;
 import levelup.moneytransfer.dto.TransferDto;
+import levelup.moneytransfer.repo.BalanceRepo;
+import levelup.moneytransfer.repo.TransactionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +18,16 @@ public class TransferServiceImpl implements TransferService {
 
     private ClientAccountDto sender;
     private ClientAccountDto receiver;
+
     @Autowired
     private ClientDataService clientDataService;
     @Autowired
     private CalculationServiceImpl calculationService;
+    @Autowired
+    private BalanceRepo balanceRepo;
+    @Autowired
+    private TransactionRepo transactionRepo;
 
-    //toDo Repo!!!
 
     public String createTransfer(TransferDto transferDto) {
         String clientsFounded = getClients(transferDto);
@@ -54,11 +60,11 @@ public class TransferServiceImpl implements TransferService {
         transactionEntity.setTransactionTime(new Timestamp(System.currentTimeMillis()));
         transactionEntity.setAccountSender(sender.getAccountId());
         transactionEntity.setAccountReceiver(receiver.getAccountId());
+        transactionRepo.save(transactionEntity);
 
         makeBalance(sender, transactionEntity, false, calculationDto);
         makeBalance(receiver, transactionEntity, false, calculationDto);
         //toDo сделать табличку для вознаграждения банку
-        //toDo OP копипаст классов с энтити - это нормально? или какой-нибудь импорт применяется обычно? конфликт энтити?
         return "Success";
     }
 
@@ -67,11 +73,12 @@ public class TransferServiceImpl implements TransferService {
         BalanceEntity balanceEntity = new BalanceEntity();
         balanceEntity.setTransactionByTransactionId(transactionEntity);
         balanceEntity.setCurrency(clientAccountDto.getCurrencyCode());
-     //   balanceEntity.setAccountId(clientAccountDto.getAccountId());
+        balanceEntity.setAccountId(clientAccountDto.getAccountId());
         balanceEntity.setBalanceBefore(clientAccountDto.getBalance());
         balanceEntity.setBalanceAfter(isReceiver ? clientAccountDto.getBalance() + calculationDto.getTransferAmountInCurrencyReceiver() :
                 clientAccountDto.getBalance() - (calculationDto.getTransferAmountInCurrencySender() + calculationDto.getTransferFeeInCurrencySender()));
         balanceEntity.setCurrency(clientAccountDto.getCurrencyCode());
+        balanceRepo.save(balanceEntity);
     }
 
 

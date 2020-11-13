@@ -147,12 +147,12 @@ public class ClientEntity {
         return Objects.hash(clientId, firstName, surName, middleName, birthDate, birthPlace, age, sex, passportNum, phoneNumber);
     }
 
-    @OneToMany(mappedBy = "clientByClientId")
+  /*  @OneToMany(mappedBy = "client_Id")
     public Collection<AccountEntity> getAccountsByClientId() {
         return accountsByClientId;
     }
 
     public void setAccountsByClientId(Collection<AccountEntity> accountsByClientId) {
         this.accountsByClientId = accountsByClientId;
-    }
+    }*/
 }

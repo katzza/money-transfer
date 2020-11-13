@@ -10,8 +10,8 @@ public class AccountEntity {
     private int accountId;
     private String accNumber;
     private String currencyCode;
-    //private Integer clientId;
-    private ClientEntity clientByClientId;
+    private Integer clientId;
+ //   private ClientEntity clientByClientId;
     private Collection<BalanceEntity> balancesByAccountId;
 
     @Id
@@ -45,7 +45,7 @@ public class AccountEntity {
         this.currencyCode = currencyCode;
     }
 
-    /*
+
     @Basic
     @Column(name = "client_id")
     public Integer getClientId() {
@@ -56,7 +56,7 @@ public class AccountEntity {
         this.clientId = clientId;
     }
 
-     */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,17 +73,17 @@ public class AccountEntity {
         return Objects.hash(accountId, accNumber, currencyCode);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "client_id")
-    public ClientEntity getClientByClientId() {
+ /*  @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "client_id")   //в целях моего микросервиса это не нужно и мешает
+    public ClientEntity getClientByClientId() {                        //а в Integer хранить это нельзя
         return clientByClientId;
     }
 
     public void setClientByClientId(ClientEntity clientByClientId) {
         this.clientByClientId = clientByClientId;
-    }
+    }*/
 
-    @OneToMany(mappedBy = "accountByAccountId")
+    @OneToMany(mappedBy = "accountId")
     public Collection<BalanceEntity> getBalancesByAccountId() {
         return balancesByAccountId;
     }
