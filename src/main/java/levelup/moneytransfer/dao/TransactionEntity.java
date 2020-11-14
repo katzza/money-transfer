@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
+
+//ONE TO ONE  https://javastudy.ru/hibernate/hibernate-one-to-one/
 @Entity
 @Table(name = "transaction", schema = "public", catalog = "bank_db")
 public class TransactionEntity {
@@ -19,6 +21,7 @@ public class TransactionEntity {
     @Id
     @Column(name = "transaction_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name ="transaction_id", referencedColumnName = "transaction")
     public int getTransactionId() {
         return transactionId;
     }

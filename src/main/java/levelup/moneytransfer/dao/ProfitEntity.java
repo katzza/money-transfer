@@ -1,7 +1,6 @@
 package levelup.moneytransfer.dao;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 
 @Entity
@@ -9,8 +8,8 @@ import java.util.Collection;
 public class ProfitEntity {
 
     private int profitId;
-    private TransactionEntity transactionId;
     private double amount;
+    private TransactionEntity transactionByTransactionId;
 
     @Id
     @Column(name = "profit_id")
@@ -19,9 +18,8 @@ public class ProfitEntity {
         return profitId;
     }
 
-    @Column(name = "transaction_id")
-    public void setTransactionId(TransactionEntity transactionId) {
-        this.transactionId = transactionId;
+    public void setProfitId(int profitId) {
+        this.profitId = profitId;
     }
 
     @Basic
@@ -32,5 +30,16 @@ public class ProfitEntity {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+
+    @Column(name = "transaction")
+    @JoinColumn (columnDefinition = "transaction_id")
+    public void setTransactionId(TransactionEntity transactionByTransactionId) {
+        this.transactionByTransactionId = transactionByTransactionId;
+    }
+
+    public TransactionEntity transactionByTransactionId() {
+        return transactionByTransactionId;
     }
 }

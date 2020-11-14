@@ -1,12 +1,14 @@
 package levelup.moneytransfer.service;
 
 import levelup.moneytransfer.dao.BalanceEntity;
+import levelup.moneytransfer.dao.ProfitEntity;
 import levelup.moneytransfer.dao.TransactionEntity;
 import levelup.moneytransfer.dto.CalculationDto;
 import levelup.moneytransfer.dto.CalculationQueryDto;
 import levelup.moneytransfer.dto.ClientAccountDto;
 import levelup.moneytransfer.dto.TransferDto;
 import levelup.moneytransfer.repo.BalanceRepo;
+import levelup.moneytransfer.repo.ProfitRepo;
 import levelup.moneytransfer.repo.TransactionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ public class TransferServiceImpl implements TransferService {
     private BalanceRepo balanceRepo;
     @Autowired
     private TransactionRepo transactionRepo;
+    @Autowired
+    private ProfitRepo profitRepo;
 
 
     public String createTransfer(TransferDto transferDto) {
@@ -64,8 +68,15 @@ public class TransferServiceImpl implements TransferService {
 
         makeBalance(sender, transactionEntity, false, calculationDto);
         makeBalance(receiver, transactionEntity, false, calculationDto);
-        //toDo сделать табличку для вознаграждения банку
+        makeBankProfit(transactionEntity, calculationDto);
         return "Success";
+    }
+
+    private void makeBankProfit(TransactionEntity transactionEntity, CalculationDto calculationDto) {
+        ProfitEntity profitEntity = new ProfitEntity();
+        profitEntity.setTransactionId(transactionEntity);
+        profitEntity.setAmount(calculationDto.getTransferFeeInCurrencySender());
+        profitRepo.save(profitEntity);
     }
 
     private void makeBalance(ClientAccountDto clientAccountDto, TransactionEntity transactionEntity,
