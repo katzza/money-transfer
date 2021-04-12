@@ -11,7 +11,7 @@ public class AccountEntity {
     private String accNumber;
     private String currencyCode;
     private Integer clientId;
- //   private ClientEntity clientByClientId;
+ //   private ClientEntity clientByClientId; //test commit
     private Collection<BalanceEntity> balancesByAccountId;
 
     @Id
